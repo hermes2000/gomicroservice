@@ -35,7 +35,7 @@ var ipMap = map[string]IP{
 		Id:        2,
 		IP:        "8.8.8.8",
 		Malicious: false,
-		Notes:     "Google DNS IP address",
+		Notes:     "Google IP address",
 	},
 	"123.123.123.123": IP{
 		Id:        3,
