@@ -18,4 +18,3 @@ USER nonroot:nonroot
 
 ENTRYPOINT ["/go/bin/microservice"]
 
-
