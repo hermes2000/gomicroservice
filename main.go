@@ -29,7 +29,7 @@ var ipMap = map[string]IP{
 		Id:        1,
 		IP:        "127.0.0.1",
 		Malicious: false,
-		Notes:     "Home sweet home",
+		Notes:     "Home sweet home?",
 	},
 	"8.8.8.8": IP{
 		Id:        2,
