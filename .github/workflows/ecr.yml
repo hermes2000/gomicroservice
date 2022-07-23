@@ -6,6 +6,9 @@ on:
 
 name: Build and push go image to ECR
 
+env:
+  APP_NAME: secops-dev-test
+
 jobs:
   deploy:
     name: Deploy
@@ -28,11 +31,22 @@ jobs:
       id: login-ecr
       uses: aws-actions/amazon-ecr-login@v1
 
+    - name: Docker meta
+      id: meta
+      uses: docker/metadata-action@v3
+      with:
+        images: ${{env.APP_IMAGE}}
+        tags: |
+          type=ref,event=branch
+          type=ref,event=pr
+          type=semver,pattern=v{{version}}
+          type=sha
+
     - name: Build, tag, and push docker image to Amazon ECR
       env:
         REGISTRY: ${{ steps.login-ecr.outputs.registry }}
         REPOSITORY: secops-dev-test
-        IMAGE_TAG: ${{ github.sha }}
+        IMAGE_TAG: ${{ steps.meta.outputs.tags }}
       run: |
         docker build -t $REGISTRY/$REPOSITORY:$IMAGE_TAG .
         docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
