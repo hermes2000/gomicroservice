@@ -48,20 +48,11 @@ jobs:
           type=semver,pattern={{major}}
           type=sha
 
-    - name: Build, tag, and push docker image to Amazon ECR
-      env:
-        IMAGE_TAG: ${{ steps.meta.outputs.tags }}
-        REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-        REPOSITORY: secops-dev-test
-      run: |
-        docker build -t $IMAGE_TAG .
-        docker push $IMAGE_TAG
-
     - name: Build and push
       uses: docker/build-push-action@v2
       with:
         context: .
         platforms: linux/arm64
-        push: ${{ github.event_name != 'pull_request' }}
+        push: ${{ github.event_name }}
         tags: ${{ steps.meta.outputs.tags }}
         labels: ${{ steps.meta.outputs.labels }}
